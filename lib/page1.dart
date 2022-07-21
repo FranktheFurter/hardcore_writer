@@ -72,7 +72,11 @@ class _BodyState extends State<Body> {
     return Observer(
       builder: (_) {
         return Container(
-          child: HwTextfield(state: mainState.textfieldState),
+          child: HwTextfield(
+            state: mainState.textfieldState,
+            expands: true,
+            topAlign: true,
+          ),
         );
       },
     );

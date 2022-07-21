@@ -82,6 +82,7 @@ class _HwTextfieldState extends State<HwTextfield> {
         obscureText: widget.obscureText,
         keyboardType: widget.state.numeric ? TextInputType.number : null,
         inputFormatters: widget.state.numeric ? <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'[0-9|.]'))] : null,
+        cursorColor: Colors.red,
         onChanged: (value) {
           widget.state.value = value;
           if (widget.onChanged != null) widget.onChanged!();
@@ -115,6 +116,15 @@ class _HwTextfieldState extends State<HwTextfield> {
           ),
           errorText: widget.state.invalid ? widget.errorLabel : null,
           prefixIcon: widget.icon != null ? Icon(widget.icon) : null,
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
         ),
       ),
     );
