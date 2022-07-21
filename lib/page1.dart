@@ -95,7 +95,11 @@ class _FootState extends State<Foot> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return Container();
+        return Container(
+            child: Text(
+          mainState.text,
+          style: TextStyle(color: Colors.white),
+        ));
       },
     );
   }

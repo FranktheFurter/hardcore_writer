@@ -12,4 +12,7 @@ abstract class _MainStateBase with Store {
   bool isLoading = true;
 
   HwTextfieldState textfieldState = HwTextfieldState();
+
+  @computed
+  String get text => textfieldState.value;
 }
