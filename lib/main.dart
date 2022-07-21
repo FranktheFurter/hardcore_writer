@@ -26,12 +26,12 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
-      theme: const CupertinoThemeData(
+    return MaterialApp(
+      theme: ThemeData(
         primaryColor: Colors.red,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: CupertinoPageScaffold(child: Observer(
+      home: Scaffold(body: Observer(
         builder: (_) {
           return mainState.isLoading
               ? Center(
