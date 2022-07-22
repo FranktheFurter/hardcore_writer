@@ -428,6 +428,7 @@ class PageController {
     mainState.deathCountdownController.reset();
     mainState.sessionCountdownController.reset();
     mainState.textfieldState.value = mainState.startText;
+    mainState.textfieldState.focusNode.unfocus();
 
     mainState.isResetting = false;
   }

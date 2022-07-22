@@ -27,6 +27,8 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //hide debug banner
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.red,
         scaffoldBackgroundColor: Colors.black,
