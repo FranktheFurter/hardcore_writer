@@ -32,32 +32,41 @@ class _MainState extends State<Main> {
         scaffoldBackgroundColor: Colors.black,
       ),
       home: Scaffold(body: Observer(
-        builder: (_) {
-          return mainState.isLoading
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Hardcore Writer",
-                        style: TextStyle(fontSize: 32, color: Colors.red),
-                      ),
-                      const SizedBox(height: 64),
-                      LoadingAnimationWidget.beat(
-                        color: Colors.red,
-                        size: 200,
-                      ),
-                      const SizedBox(height: 64),
-                      const Text(
-                        "Loading",
-                        style: TextStyle(fontSize: 32, color: Colors.red),
-                      ),
-                    ],
-                  ),
-                )
-              : Page1();
+        builder: (context) {
+          return mainState.isLoading ? LoadingScreen() : Page1();
         },
       )),
+    );
+  }
+}
+
+class LoadingScreen extends StatelessWidget {
+  const LoadingScreen({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "Hardcore Writer",
+            style: TextStyle(fontSize: 32, color: Colors.red),
+          ),
+          const SizedBox(height: 64),
+          LoadingAnimationWidget.beat(
+            color: Colors.red,
+            size: 200,
+          ),
+          const SizedBox(height: 64),
+          const Text(
+            "Loading",
+            style: TextStyle(fontSize: 32, color: Colors.red),
+          ),
+        ],
+      ),
     );
   }
 }

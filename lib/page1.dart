@@ -23,10 +23,13 @@ class _Page1State extends State<Page1> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return PageLayout(
-          header: Header(),
-          body: Body(),
-          footer: Foot(),
+        return Container(
+          color: Colors.grey[900],
+          child: PageLayout(
+            header: Container(color: Colors.grey, child: Header()),
+            body: Body(),
+            footer: Container(color: Colors.grey, child: Foot()),
+          ),
         );
       },
     );

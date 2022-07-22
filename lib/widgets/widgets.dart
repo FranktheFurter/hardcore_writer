@@ -8,12 +8,12 @@ class PageLayout extends StatelessWidget {
   const PageLayout({Key? key, this.header, this.body, this.footer}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    const double padH = 32;
-    const double padV = 16;
+    const double padH = 16;
+    const double padV = 8;
 
     return Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height - 130,
+        height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
             (header == null) ? Container() : Padding(padding: const EdgeInsets.symmetric(horizontal: padH, vertical: padV), child: header),
