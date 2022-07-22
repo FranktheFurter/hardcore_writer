@@ -115,19 +115,19 @@ class _FootState extends State<Foot> {
             ElevatedButton(
                 onPressed: () {
                   mainState.deathCountdownController.pause();
-                  mainState.deathCountdownController.pause();
+                  mainState.sessionCountdownController.pause();
                 },
                 child: Text("Pause")),
             ElevatedButton(
                 onPressed: () {
                   mainState.deathCountdownController.resume();
-                  mainState.deathCountdownController.resume();
+                  mainState.sessionCountdownController.resume();
                 },
                 child: Text("Resume")),
             ElevatedButton(
                 onPressed: () {
-                  mainState.deathCountdownController.restart();
-                  mainState.deathCountdownController.restart();
+                  mainState.deathCountdownController.reset();
+                  mainState.sessionCountdownController.reset();
                 },
                 child: Text("Restart")),
           ],
@@ -146,8 +146,13 @@ class DeathTimer extends StatefulWidget {
 
 class _DeathTimerState extends State<DeathTimer> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     mainState.deathCountdownController = CountDownController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Observer(builder: (_) {
       return Container(
         padding: EdgeInsets.all(16),
@@ -162,31 +167,31 @@ class _DeathTimerState extends State<DeathTimer> {
           controller: mainState.deathCountdownController,
 
           // Width of the Countdown Widget.
-          width: 30,
+          width: 48,
 
           // Height of the Countdown Widget.
-          height: 30,
+          height: 48,
 
           // Ring Color for Countdown Widget.
-          ringColor: Colors.grey[300]!,
+          ringColor: Colors.black,
 
           // Ring Gradient for Countdown Widget.
           ringGradient: null,
 
           // Filling Color for Countdown Widget.
-          fillColor: Colors.purpleAccent[100]!,
+          fillColor: Colors.red,
 
           // Filling Gradient for Countdown Widget.
           fillGradient: null,
 
           // Background Color for Countdown Widget.
-          backgroundColor: Colors.purple[500],
+          backgroundColor: Colors.black,
 
           // Background Gradient for Countdown Widget.
           backgroundGradient: null,
 
           // Border Thickness of the Countdown Ring.
-          strokeWidth: 20.0,
+          strokeWidth: 4.0,
 
           // Begin and end contours with a flat edge and no extension.
           strokeCap: StrokeCap.round,
@@ -194,7 +199,7 @@ class _DeathTimerState extends State<DeathTimer> {
           // Text Style for Countdown Text.
           textStyle: const TextStyle(
             fontSize: 12.0,
-            color: Colors.white,
+            color: Colors.red,
             fontWeight: FontWeight.bold,
           ),
 
@@ -245,8 +250,13 @@ class SessionTimer extends StatefulWidget {
 
 class _SessionTimerState extends State<SessionTimer> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     mainState.sessionCountdownController = CountDownController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Observer(builder: (_) {
       return Container(
         padding: EdgeInsets.all(16),
@@ -261,31 +271,31 @@ class _SessionTimerState extends State<SessionTimer> {
           controller: mainState.sessionCountdownController,
 
           // Width of the Countdown Widget.
-          width: 30,
+          width: 48,
 
           // Height of the Countdown Widget.
-          height: 30,
+          height: 48,
 
           // Ring Color for Countdown Widget.
-          ringColor: Colors.grey[300]!,
+          ringColor: Colors.black,
 
           // Ring Gradient for Countdown Widget.
           ringGradient: null,
 
           // Filling Color for Countdown Widget.
-          fillColor: Colors.purpleAccent[100]!,
+          fillColor: Colors.red,
 
           // Filling Gradient for Countdown Widget.
           fillGradient: null,
 
           // Background Color for Countdown Widget.
-          backgroundColor: Colors.purple[500],
+          backgroundColor: Colors.black,
 
           // Background Gradient for Countdown Widget.
           backgroundGradient: null,
 
           // Border Thickness of the Countdown Ring.
-          strokeWidth: 20.0,
+          strokeWidth: 4.0,
 
           // Begin and end contours with a flat edge and no extension.
           strokeCap: StrokeCap.round,
@@ -293,12 +303,12 @@ class _SessionTimerState extends State<SessionTimer> {
           // Text Style for Countdown Text.
           textStyle: const TextStyle(
             fontSize: 12.0,
-            color: Colors.white,
+            color: Colors.red,
             fontWeight: FontWeight.bold,
           ),
 
           // Format for the Countdown Text.
-          textFormat: CountdownTextFormat.S,
+          textFormat: CountdownTextFormat.MM_SS,
 
           // Handles Countdown Timer (true for Reverse Countdown (max to 0), false for Forward Countdown (0 to max)).
           isReverse: true,

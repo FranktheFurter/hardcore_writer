@@ -74,7 +74,7 @@ class LoadingScreen extends StatelessWidget {
 class MainController {
   static void initState() {
     mainState.isLoading = true;
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 1), () {
       mainState.isLoading = false;
     });
   }
