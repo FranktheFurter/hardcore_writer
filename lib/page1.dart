@@ -126,7 +126,7 @@ class _BodyState extends State<Body> {
               padding: EdgeInsets.all(8),
               child: HwTextfield(
                 state: mainState.textfieldState,
-                onChanged: mainState.deathCountdownController.restart,
+                onChanged: () => mainState.deathCountdownController.restart(duration: mainState.deathCountdownDuration),
                 expands: true,
                 topAlign: true,
                 // onChanged: mainState.deathCountdownController.restart,
@@ -414,12 +414,12 @@ class PageController {
 
   static void startSession() {
     mainState.sessionRunning = true;
-    mainState.deathCountdownController.start();
-    mainState.sessionCountdownController.start();
+    mainState.deathCountdownController.restart(duration: mainState.deathCountdownDuration);
+    mainState.sessionCountdownController.restart(duration: mainState.sessionCountdownDuration);
   }
 
   static void killScreen() {
-    var duration = Duration(milliseconds: 50);
+    var duration = Duration(milliseconds: 1);
     List<String> replacements = ['#', '666', 'XXX', 'DEATH'];
     Random random = Random();
     Timer.periodic(duration, (timer) {
