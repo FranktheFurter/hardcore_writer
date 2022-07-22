@@ -23,13 +23,10 @@ class _Page1State extends State<Page1> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return Container(
-          color: Colors.grey[900],
-          child: PageLayout(
-            header: Container(color: Colors.grey, child: Header()),
-            body: Body(),
-            footer: Container(color: Colors.grey, child: Foot()),
-          ),
+        return PageLayout(
+          header: Header(),
+          body: Body(),
+          footer: Foot(),
         );
       },
     );
@@ -49,8 +46,12 @@ class _HeaderState extends State<Header> {
     return Observer(
       builder: (_) {
         return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: const [
+            Text(
+              "Time",
+              style: TextStyle(fontSize: 32, color: Colors.red),
+            ),
             Text(
               "HEADER",
               style: TextStyle(fontSize: 32, color: Colors.red),

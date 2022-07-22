@@ -8,8 +8,8 @@ class PageLayout extends StatelessWidget {
   const PageLayout({Key? key, this.header, this.body, this.footer}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    const double padH = 16;
-    const double padV = 8;
+    const double padH = 8;
+    const double padV = 4;
 
     return Container(
         width: MediaQuery.of(context).size.width,
