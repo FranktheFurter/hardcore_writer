@@ -49,15 +49,15 @@ class _HeaderState extends State<Header> {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: const [
-            Text(
-              "Deathtimer:",
-              style: TextStyle(fontSize: 32, color: Colors.red),
-            ),
+            // Text(
+            //   "Deathtimer:",
+            //   style: TextStyle(fontSize: 32, color: Colors.red),
+            // ),
             DeathTimer(),
-            Text(
-              "Sessiontimer:",
-              style: TextStyle(fontSize: 32, color: Colors.red),
-            ),
+            // Text(
+            //   "Sessiontimer:",
+            //   style: TextStyle(fontSize: 32, color: Colors.red),
+            // ),
             SessionTimer(),
           ],
         );
