@@ -17,6 +17,9 @@ abstract class _MainStateBase with Store {
   @observable
   int sessionCountdownDuration = 300;
 
+  @observable
+  bool sessionRunning = false;
+
   late CountDownController deathCountdownController;
   late CountDownController sessionCountdownController;
 

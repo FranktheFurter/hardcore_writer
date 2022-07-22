@@ -66,12 +66,29 @@ mixin _$MainState on _MainStateBase, Store {
     });
   }
 
+  late final _$sessionRunningAtom =
+      Atom(name: '_MainStateBase.sessionRunning', context: context);
+
+  @override
+  bool get sessionRunning {
+    _$sessionRunningAtom.reportRead();
+    return super.sessionRunning;
+  }
+
+  @override
+  set sessionRunning(bool value) {
+    _$sessionRunningAtom.reportWrite(value, super.sessionRunning, () {
+      super.sessionRunning = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 isLoading: ${isLoading},
 deathCountdownDuration: ${deathCountdownDuration},
 sessionCountdownDuration: ${sessionCountdownDuration},
+sessionRunning: ${sessionRunning},
 text: ${text}
     ''';
   }
