@@ -37,7 +37,7 @@ class _Page1State extends State<Page1> {
         return PageLayout(
           header: Header(),
           body: Body(),
-          footer: Foot(),
+          // footer: Foot(),
         );
       },
     );
@@ -140,6 +140,17 @@ class _BodyState extends State<Body> {
                     mainState.sessionCountdownController.restart(duration: mainState.sessionCountdownDuration);
                   } else if (mainState.sessionRunning) {
                     mainState.deathCountdownController.restart(duration: mainState.deathCountdownDuration);
+                  }
+                },
+                onFocusGet: () {
+                  if (mainState.textfieldState.value == mainState.startText) {
+                    mainState.textfieldState.value = "";
+                  }
+                },
+                onFocusLost: () {
+                  if (mainState.textfieldState.value == "") {
+                    mainState.textfieldState.value = mainState.startText;
+                    PageController.reset();
                   }
                 },
                 expands: true,
@@ -416,6 +427,7 @@ class PageController {
     mainState.sessionRunning = false;
     mainState.deathCountdownController.reset();
     mainState.sessionCountdownController.reset();
+    mainState.textfieldState.value = mainState.startText;
 
     mainState.isResetting = false;
   }
@@ -430,14 +442,14 @@ class PageController {
     if (mainState.isResetting) {
       return;
     }
-    //stop all the timers
-    mainState.deathCountdownController.pause();
-    mainState.sessionCountdownController.pause();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("GAME OVER!!! Your text is gone")));
     reset();
   }
 
   static void winScreen(BuildContext context) {
+    if (mainState.isResetting) {
+      return;
+    }
     Clipboard.setData(ClipboardData(text: mainState.textfieldState.value));
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Congratulations! Your text has been copied to your clipboard.")));
     reset();
