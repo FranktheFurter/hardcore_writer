@@ -32,10 +32,44 @@ mixin _$MainState on _MainStateBase, Store {
     });
   }
 
+  late final _$countdownDurationAtom =
+      Atom(name: '_MainStateBase.countdownDuration', context: context);
+
+  @override
+  int get countdownDuration {
+    _$countdownDurationAtom.reportRead();
+    return super.countdownDuration;
+  }
+
+  @override
+  set countdownDuration(int value) {
+    _$countdownDurationAtom.reportWrite(value, super.countdownDuration, () {
+      super.countdownDuration = value;
+    });
+  }
+
+  late final _$countdownControllerAtom =
+      Atom(name: '_MainStateBase.countdownController', context: context);
+
+  @override
+  CountDownController get countdownController {
+    _$countdownControllerAtom.reportRead();
+    return super.countdownController;
+  }
+
+  @override
+  set countdownController(CountDownController value) {
+    _$countdownControllerAtom.reportWrite(value, super.countdownController, () {
+      super.countdownController = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 isLoading: ${isLoading},
+countdownDuration: ${countdownDuration},
+countdownController: ${countdownController},
 text: ${text}
     ''';
   }

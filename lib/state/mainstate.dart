@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:hardcore_writer/widgets/hw_textfield/state/hw_textfield_state.dart';
 import 'package:mobx/mobx.dart';
 part 'mainstate.g.dart';
@@ -10,6 +11,12 @@ MainState mainState = MainState();
 abstract class _MainStateBase with Store {
   @observable
   bool isLoading = true;
+
+  @observable
+  int countdownDuration = 15;
+
+  @observable
+  CountDownController countdownController = CountDownController();
 
   HwTextfieldState textfieldState = HwTextfieldState();
 

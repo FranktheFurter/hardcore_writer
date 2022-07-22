@@ -37,6 +37,7 @@ dependencies:
   loading_animation_widget: ^1.0.0
   mobx: ^2.0.7+2
   flutter_mobx: ^2.0.6+1
+  circular_countdown_timer: ^0.2.2
 
 dev_dependencies:
   flutter_test:

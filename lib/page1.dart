@@ -10,6 +10,7 @@ import 'package:hardcore_writer/widgets/hw_textfield/hw_textfield.dart';
 import 'package:hardcore_writer/widgets/misc.dart';
 import 'package:hardcore_writer/widgets/widgets.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
 class Page1 extends StatefulWidget {
   const Page1({Key? key}) : super(key: key);
@@ -48,10 +49,7 @@ class _HeaderState extends State<Header> {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: const [
-            Text(
-              "Time",
-              style: TextStyle(fontSize: 32, color: Colors.red),
-            ),
+            CountDownCircle(),
             Text(
               "HEADER",
               style: TextStyle(fontSize: 32, color: Colors.red),
@@ -99,12 +97,131 @@ class _FootState extends State<Foot> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
-        return Container(
-            child: Text(
-          mainState.text,
-          style: TextStyle(color: Colors.white),
-        ));
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  mainState.countdownController.start();
+                },
+                child: Text("Start")),
+            ElevatedButton(
+                onPressed: () {
+                  mainState.countdownController.pause();
+                },
+                child: Text("Pause")),
+            ElevatedButton(
+                onPressed: () {
+                  mainState.countdownController.resume();
+                },
+                child: Text("Resume")),
+            ElevatedButton(
+                onPressed: () {
+                  mainState.countdownController.restart();
+                },
+                child: Text("Restart")),
+          ],
+        );
       },
     );
+  }
+}
+
+class CountDownCircle extends StatefulWidget {
+  const CountDownCircle({Key? key}) : super(key: key);
+
+  @override
+  State<CountDownCircle> createState() => _CountDownCircleState();
+}
+
+class _CountDownCircleState extends State<CountDownCircle> {
+  @override
+  Widget build(BuildContext context) {
+    mainState.countdownController = CountDownController();
+    return Observer(builder: (_) {
+      return Container(
+        padding: EdgeInsets.all(16),
+        child: CircularCountDownTimer(
+          // Countdown duration in Seconds.
+          duration: mainState.countdownDuration,
+
+          // Countdown initial elapsed Duration in Seconds.
+          initialDuration: 0,
+
+          // Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
+          controller: mainState.countdownController,
+
+          // Width of the Countdown Widget.
+          width: 30,
+
+          // Height of the Countdown Widget.
+          height: 30,
+
+          // Ring Color for Countdown Widget.
+          ringColor: Colors.grey[300]!,
+
+          // Ring Gradient for Countdown Widget.
+          ringGradient: null,
+
+          // Filling Color for Countdown Widget.
+          fillColor: Colors.purpleAccent[100]!,
+
+          // Filling Gradient for Countdown Widget.
+          fillGradient: null,
+
+          // Background Color for Countdown Widget.
+          backgroundColor: Colors.purple[500],
+
+          // Background Gradient for Countdown Widget.
+          backgroundGradient: null,
+
+          // Border Thickness of the Countdown Ring.
+          strokeWidth: 20.0,
+
+          // Begin and end contours with a flat edge and no extension.
+          strokeCap: StrokeCap.round,
+
+          // Text Style for Countdown Text.
+          textStyle: const TextStyle(
+            fontSize: 12.0,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+
+          // Format for the Countdown Text.
+          textFormat: CountdownTextFormat.S,
+
+          // Handles Countdown Timer (true for Reverse Countdown (max to 0), false for Forward Countdown (0 to max)).
+          isReverse: true,
+
+          // Handles Animation Direction (true for Reverse Animation, false for Forward Animation).
+          isReverseAnimation: false,
+
+          // Handles visibility of the Countdown Text.
+          isTimerTextShown: true,
+
+          // Handles the timer start.
+          autoStart: false,
+
+          // This Callback will execute when the Countdown Starts.
+          onStart: () {
+            // Here, do whatever you want
+            debugPrint('Countdown Started');
+          },
+
+          // This Callback will execute when the Countdown Ends.
+          onComplete: () {
+            // Here, do whatever you want
+            debugPrint('Countdown Ended');
+          },
+
+          // This Callback will execute when the Countdown Changes.
+          onChange: (String timeStamp) {
+            // Here, do whatever you want
+            debugPrint('Countdown Changed $timeStamp');
+          },
+        ),
+      );
+    });
   }
 }
