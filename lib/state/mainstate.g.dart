@@ -32,35 +32,37 @@ mixin _$MainState on _MainStateBase, Store {
     });
   }
 
-  late final _$countdownDurationAtom =
-      Atom(name: '_MainStateBase.countdownDuration', context: context);
+  late final _$deathCountdownDurationAtom =
+      Atom(name: '_MainStateBase.deathCountdownDuration', context: context);
 
   @override
-  int get countdownDuration {
-    _$countdownDurationAtom.reportRead();
-    return super.countdownDuration;
+  int get deathCountdownDuration {
+    _$deathCountdownDurationAtom.reportRead();
+    return super.deathCountdownDuration;
   }
 
   @override
-  set countdownDuration(int value) {
-    _$countdownDurationAtom.reportWrite(value, super.countdownDuration, () {
-      super.countdownDuration = value;
+  set deathCountdownDuration(int value) {
+    _$deathCountdownDurationAtom
+        .reportWrite(value, super.deathCountdownDuration, () {
+      super.deathCountdownDuration = value;
     });
   }
 
-  late final _$countdownControllerAtom =
-      Atom(name: '_MainStateBase.countdownController', context: context);
+  late final _$sessionCountdownDurationAtom =
+      Atom(name: '_MainStateBase.sessionCountdownDuration', context: context);
 
   @override
-  CountDownController get countdownController {
-    _$countdownControllerAtom.reportRead();
-    return super.countdownController;
+  int get sessionCountdownDuration {
+    _$sessionCountdownDurationAtom.reportRead();
+    return super.sessionCountdownDuration;
   }
 
   @override
-  set countdownController(CountDownController value) {
-    _$countdownControllerAtom.reportWrite(value, super.countdownController, () {
-      super.countdownController = value;
+  set sessionCountdownDuration(int value) {
+    _$sessionCountdownDurationAtom
+        .reportWrite(value, super.sessionCountdownDuration, () {
+      super.sessionCountdownDuration = value;
     });
   }
 
@@ -68,8 +70,8 @@ mixin _$MainState on _MainStateBase, Store {
   String toString() {
     return '''
 isLoading: ${isLoading},
-countdownDuration: ${countdownDuration},
-countdownController: ${countdownController},
+deathCountdownDuration: ${deathCountdownDuration},
+sessionCountdownDuration: ${sessionCountdownDuration},
 text: ${text}
     ''';
   }

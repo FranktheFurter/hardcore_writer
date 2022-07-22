@@ -13,10 +13,12 @@ abstract class _MainStateBase with Store {
   bool isLoading = true;
 
   @observable
-  int countdownDuration = 15;
-
+  int deathCountdownDuration = 15;
   @observable
-  CountDownController countdownController = CountDownController();
+  int sessionCountdownDuration = 300;
+
+  late CountDownController deathCountdownController;
+  late CountDownController sessionCountdownController;
 
   HwTextfieldState textfieldState = HwTextfieldState();
 
