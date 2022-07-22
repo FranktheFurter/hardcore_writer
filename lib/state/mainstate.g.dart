@@ -16,6 +16,22 @@ mixin _$MainState on _MainStateBase, Store {
           Computed<String>(() => super.text, name: '_MainStateBase.text'))
       .value;
 
+  late final _$startTextAtom =
+      Atom(name: '_MainStateBase.startText', context: context);
+
+  @override
+  String get startText {
+    _$startTextAtom.reportRead();
+    return super.startText;
+  }
+
+  @override
+  set startText(String value) {
+    _$startTextAtom.reportWrite(value, super.startText, () {
+      super.startText = value;
+    });
+  }
+
   late final _$isLoadingAtom =
       Atom(name: '_MainStateBase.isLoading', context: context);
 
@@ -29,6 +45,22 @@ mixin _$MainState on _MainStateBase, Store {
   set isLoading(bool value) {
     _$isLoadingAtom.reportWrite(value, super.isLoading, () {
       super.isLoading = value;
+    });
+  }
+
+  late final _$isResettingAtom =
+      Atom(name: '_MainStateBase.isResetting', context: context);
+
+  @override
+  bool get isResetting {
+    _$isResettingAtom.reportRead();
+    return super.isResetting;
+  }
+
+  @override
+  set isResetting(bool value) {
+    _$isResettingAtom.reportWrite(value, super.isResetting, () {
+      super.isResetting = value;
     });
   }
 
@@ -85,7 +117,9 @@ mixin _$MainState on _MainStateBase, Store {
   @override
   String toString() {
     return '''
+startText: ${startText},
 isLoading: ${isLoading},
+isResetting: ${isResetting},
 deathCountdownDuration: ${deathCountdownDuration},
 sessionCountdownDuration: ${sessionCountdownDuration},
 sessionRunning: ${sessionRunning},

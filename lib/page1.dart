@@ -6,6 +6,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hardcore_writer/state/mainstate.dart';
@@ -58,42 +59,47 @@ class _HeaderState extends State<Header> {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Row(
+            Column(
               children: [
                 DeathTimer(),
-                IgnorePointer(
-                  ignoring: mainState.sessionRunning ? true : false,
-                  child: Slider(
-                    min: 10,
-                    max: 20,
-                    inactiveColor: Colors.grey.withOpacity(0.33),
-                    activeColor: Colors.red,
-                    divisions: 4,
-                    value: mainState.deathCountdownDuration.toDouble(),
-                    onChanged: (double value) {
-                      mainState.deathCountdownDuration = value.toInt();
-                    },
-                  ),
-                ),
+                (mainState.sessionRunning)
+                    ? Container()
+                    : IgnorePointer(
+                        ignoring: mainState.sessionRunning ? true : false,
+                        child: Slider(
+                          min: 10,
+                          max: 20,
+                          inactiveColor: Colors.grey.withOpacity(0.33),
+                          activeColor: Colors.red,
+                          divisions: 4,
+                          value: mainState.deathCountdownDuration.toDouble(),
+                          onChanged: (double value) {
+                            mainState.deathCountdownDuration = value.toInt();
+                          },
+                        ),
+                      ),
               ],
             ),
-            Row(
+            Column(
               children: [
                 SessionTimer(),
-                IgnorePointer(
-                  ignoring: mainState.sessionRunning ? true : false,
-                  child: Slider(
-                    min: 60,
-                    max: 600,
-                    inactiveColor: Colors.grey.withOpacity(0.33),
-                    activeColor: Colors.red,
-                    divisions: 9,
-                    value: mainState.sessionCountdownDuration.toDouble(),
-                    onChanged: (double value) {
-                      mainState.sessionCountdownDuration = value.toInt();
-                    },
-                  ),
-                ),
+                (mainState.sessionRunning)
+                    ? Container()
+                    : IgnorePointer(
+                        ignoring: mainState.sessionRunning ? true : false,
+                        child: Slider(
+                          // min: 60,
+                          min: 6,
+                          max: 600,
+                          inactiveColor: Colors.grey.withOpacity(0.33),
+                          activeColor: Colors.red,
+                          divisions: 9,
+                          value: mainState.sessionCountdownDuration.toDouble(),
+                          onChanged: (double value) {
+                            mainState.sessionCountdownDuration = value.toInt();
+                          },
+                        ),
+                      ),
               ],
             ),
           ],
@@ -126,7 +132,16 @@ class _BodyState extends State<Body> {
               padding: EdgeInsets.all(8),
               child: HwTextfield(
                 state: mainState.textfieldState,
-                onChanged: () => mainState.deathCountdownController.restart(duration: mainState.deathCountdownDuration),
+                onChanged: () {
+                  //Start the session if more than 10 characters are entered
+                  if (mainState.textfieldState.value.length > 10 && !mainState.sessionRunning) {
+                    mainState.sessionRunning = true;
+                    mainState.deathCountdownController.restart(duration: mainState.deathCountdownDuration);
+                    mainState.sessionCountdownController.restart(duration: mainState.sessionCountdownDuration);
+                  } else if (mainState.sessionRunning) {
+                    mainState.deathCountdownController.restart(duration: mainState.deathCountdownDuration);
+                  }
+                },
                 expands: true,
                 topAlign: true,
                 // onChanged: mainState.deathCountdownController.restart,
@@ -168,21 +183,9 @@ class _FootState extends State<Foot> {
                     child: Text("Start")),
                 ElevatedButton(
                     onPressed: () {
-                      mainState.deathCountdownController.pause();
-                      mainState.sessionCountdownController.pause();
-                    },
-                    child: Text("Pause")),
-                ElevatedButton(
-                    onPressed: () {
-                      mainState.deathCountdownController.resume();
-                      mainState.sessionCountdownController.resume();
-                    },
-                    child: Text("Resume")),
-                ElevatedButton(
-                    onPressed: () {
                       PageController.reset();
                     },
-                    child: Text("Restart")),
+                    child: Text("Reset")),
               ],
             ),
           ],
@@ -283,7 +286,7 @@ class _DeathTimerState extends State<DeathTimer> {
           onComplete: () {
             // Here, do whatever you want
             debugPrint('Countdown Ended');
-            PageController.killScreen();
+            PageController.killScreen(context);
           },
 
           // This Callback will execute when the Countdown Changes.
@@ -388,6 +391,7 @@ class _SessionTimerState extends State<SessionTimer> {
           onComplete: () {
             // Here, do whatever you want
             debugPrint('Countdown Ended');
+            PageController.winScreen(context);
           },
 
           // This Callback will execute when the Countdown Changes.
@@ -404,12 +408,16 @@ class _SessionTimerState extends State<SessionTimer> {
 class PageController {
   static void initState() {
     mainState.sessionRunning = false;
+    mainState.textfieldState.value = mainState.startText;
   }
 
   static void reset() {
+    mainState.isResetting = true;
     mainState.sessionRunning = false;
     mainState.deathCountdownController.reset();
     mainState.sessionCountdownController.reset();
+
+    mainState.isResetting = false;
   }
 
   static void startSession() {
@@ -418,18 +426,20 @@ class PageController {
     mainState.sessionCountdownController.restart(duration: mainState.sessionCountdownDuration);
   }
 
-  static void killScreen() {
-    var duration = Duration(milliseconds: 1);
-    List<String> replacements = ['#', '666', 'XXX', 'DEATH'];
-    Random random = Random();
-    Timer.periodic(duration, (timer) {
-      // Stop the timer when it matches a condition
-      if (timer.tick >= 100) {
-        timer.cancel();
-      }
-      int length = mainState.textfieldState.value.length;
-      mainState.textfieldState.value = mainState.textfieldState.value += replacements[random.nextInt(4)];
-      print('Tick: ${timer.tick}');
-    });
+  static void killScreen(BuildContext context) {
+    if (mainState.isResetting) {
+      return;
+    }
+    //stop all the timers
+    mainState.deathCountdownController.pause();
+    mainState.sessionCountdownController.pause();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("GAME OVER!!! Your text is gone")));
+    reset();
+  }
+
+  static void winScreen(BuildContext context) {
+    Clipboard.setData(ClipboardData(text: mainState.textfieldState.value));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Congratulations! Your text has been copied to your clipboard.")));
+    reset();
   }
 }

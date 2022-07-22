@@ -10,7 +10,13 @@ MainState mainState = MainState();
 
 abstract class _MainStateBase with Store {
   @observable
+  String startText = "Type more than 10 characters to start your session";
+
+  @observable
   bool isLoading = true;
+
+  @observable
+  bool isResetting = false;
 
   @observable
   int deathCountdownDuration = 15;
