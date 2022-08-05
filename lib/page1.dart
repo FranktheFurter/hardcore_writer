@@ -62,6 +62,15 @@ class _HeaderState extends State<Header> {
           children: [
             Column(
               children: [
+                (mainState.sessionRunning)
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 32.0, bottom: 8),
+                        child: Text(
+                          "Time for Keystrokes:",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                 DeathTimer(),
                 (mainState.sessionRunning)
                     ? Container()
@@ -83,6 +92,15 @@ class _HeaderState extends State<Header> {
             ),
             Column(
               children: [
+                (mainState.sessionRunning)
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 32.0, bottom: 8),
+                        child: Text(
+                          "Length of the Session",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                 SessionTimer(),
                 (mainState.sessionRunning)
                     ? Container()
