@@ -107,12 +107,11 @@ class _HeaderState extends State<Header> {
                     : IgnorePointer(
                         ignoring: mainState.sessionRunning ? true : false,
                         child: Slider(
-                          // min: 60,
-                          min: 6,
-                          max: 600,
+                          min: 60,
+                          max: 1200,
                           inactiveColor: Colors.grey.withOpacity(0.33),
                           activeColor: Colors.red,
-                          divisions: 9,
+                          divisions: 19,
                           value: mainState.sessionCountdownDuration.toDouble(),
                           onChanged: (double value) {
                             mainState.sessionCountdownDuration = value.toInt();
