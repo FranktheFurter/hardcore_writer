@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -61,15 +62,6 @@ class _HeaderState extends State<Header> {
           children: [
             Column(
               children: [
-                (mainState.sessionRunning)
-                    ? Container()
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 32.0, bottom: 8),
-                        child: Text(
-                          "Time for Keystrokes:",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
                 DeathTimer(),
                 (mainState.sessionRunning)
                     ? Container()
@@ -91,15 +83,6 @@ class _HeaderState extends State<Header> {
             ),
             Column(
               children: [
-                (mainState.sessionRunning)
-                    ? Container()
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 32.0, bottom: 8),
-                        child: Text(
-                          "Length of the Session",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
                 SessionTimer(),
                 (mainState.sessionRunning)
                     ? Container()
@@ -468,8 +451,37 @@ class PageController {
     if (mainState.isResetting) {
       return;
     }
-    Clipboard.setData(ClipboardData(text: mainState.textfieldState.value));
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Congratulations! Your text has been copied to your clipboard.")));
+    // buffering the saved text here
+    String finalText = mainState.textfieldState.value;
+
+    if (kIsWeb) {
+      //Dialog on web
+      showModal(context, finalText);
+    } else {
+      //copy to clipoard on all other platforms
+      Clipboard.setData(ClipboardData(text: finalText));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Congratulations! Your text has been copied to your clipboard.")));
+    }
     reset();
+  }
+
+  static void showModal(BuildContext context, String finalText) {
+    Navigator.of(context).restorablePush(_dialogBuilder, arguments: finalText);
+  }
+
+  static Route<Object?> _dialogBuilder(BuildContext context, Object? arguments) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+          backgroundColor: Colors.black,
+          contentTextStyle: TextStyle(color: Colors.white),
+          title: Text(
+            'Congratulations! You may copy your text',
+            style: TextStyle(color: Colors.white),
+          ),
+          content: Container(
+            child: SingleChildScrollView(child: SelectableText(arguments as String)),
+          )),
+    );
   }
 }
